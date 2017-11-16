@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module matrixcontroller(opcode, func, RegDst, RegWrite, ALUSrc, MemRead, MemWrite, MemtoReg, Brnch, ALUSrc2, RegSl, ALUOp);
+module matrixcontroller(opcode, func, ALUSrc, ALUSrc2, RegSl, RegDst, RegWrite, ALUOp, MemRead, MemWrite, MemtoReg, Brnch);
    input [5:0] opcode, func;
    output reg  RegDst, RegWrite, ALUSrc, MemRead, MemWrite, MemtoReg, Brnch, ALUSrc2, RegSl;
    output reg [3:0] ALUOp;
@@ -154,7 +154,7 @@ module matrixcontroller(opcode, func, RegDst, RegWrite, ALUSrc, MemRead, MemWrit
       MemtoReg <= 0;
       Brnch <= 0;
    end // if (opcode == 6'b001000)
-   else if (opcode == 6'b001000) begin // ori
+   else if (opcode == 6'b001101) begin // ori
       ALUSrc <= 1;
       ALUSrc2 <= 0;
       RegSl <= 0;
