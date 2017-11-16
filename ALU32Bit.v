@@ -88,7 +88,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
         4'b0001: ALUResult = A - B;
         4'b0010: ALUResult = A * B;
         4'b0011: ALUResult = A & B;
-	    4'b0100: ALUResult = A || B;
+	    4'b0100: ALUResult = A | B;
 	    4'b0101: begin
 	       if (A < B) begin
 	           ALUResult = 32'h00000001;
@@ -128,6 +128,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
 	           end
 	           ALUResult = counter;
 	           counter = 0;
+	           flag = 0;
 	       end
 	       else begin
 	           ALUResult <= 0;
@@ -145,6 +146,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
                 end
                 ALUResult = counter;
                 counter = 0;
+                flag = 0;
             end
             else begin
                 ALUResult <= 0;

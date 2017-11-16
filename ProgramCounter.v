@@ -37,10 +37,10 @@ module ProgramCounter(Address, PCResult, Reset, Clk);
 
        always @(posedge Clk) begin
 	       if (Reset) begin
-	           PCResult = 32'h0;
+	           PCResult <= 32'h0;
 	       end
 	   else begin
-	      PCResult = Address;
+	      PCResult <= Address;
 	   end
 	end
    

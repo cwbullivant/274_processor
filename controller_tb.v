@@ -30,8 +30,8 @@ wire MemRead_tb, MemWrite_tb, MemtoReg_tb, Brnch_tb;
 matrixcontroller con_tb(op, fcn, ALUSrc_tb, ALUSrc2_tb, RegSl_tb, RegDst_tb, RegWrite_tb, ALUOp_tb, MemRead_tb, 
                         MemWrite_tb, MemtoReg_tb, Brnch_tb);
 
-initial begin
-    op <= 6'b000000; fcn <= 6'b100000; // +
+always begin
+    #100 op <= 6'b000000; fcn <= 6'b100000; // +
     #10 op <= 6'b000000; fcn <= 6'b100010; // -
     #10 op <= 6'b000000; fcn <= 6'b100100; // &&
     #10 op <= 6'b000000; fcn <= 6'b100101; // ||

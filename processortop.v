@@ -20,18 +20,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module processortop();
+module processortop(Rst, Clk);
 
-wire [5:0] operation, fcn; // controller input signals
-wire Rst, Clk; // reset and clock signals
+input Rst, Clk; // reset and clock signals
 
-wire destReg, RgWrt, ALUSc, MemRd, MemWrt, MemtReg, Bnch, ALUSc2, RgSel, ALUOperation; // controller output signals
-wire [31:0] PCAdd, PCN, Instruc, APF, ExtInstruc, ShftAddr, ASA, RD1, RD2, ALUS2, ALUR, RMD, WTR, ALUSS, Zext, ALURS;
-wire [4:0] WRA;
-wire Zro, nZro, PCSrc;
+wire [5:0] oprtn, fcn; // controller input signals
 
-matrixcontroller controller_1(operation, fcn, destReg, RgWrt, ALUSc, MemRd, MemWrt, MemtReg, Bnch, ALUSc2, RgSel, ALUOperation);
-Datapathtop full_datapath(destReg, RgWrt, ALUSc, MemWrt, MemRd, MemtReg, Bnch, operation, Rst, Clk, PCAdd, PCN, Instruc, APF, ExtInstruc, 
-ShftAddr, ASA, RD1, RD2, ALUS2, ALUR, RMD, WTR, ALUSS, Zext, ALURS, WRA, Zro, nZro, PCSrc);
+wire destReg, RgWrt, ALUSc, MemRd, MemWrt, MemtReg, Bnch, ALUSc2, RgSel; // controller output signals
+wire [3:0] ALUOperation;
+
+matrixcontroller controller_1(oprtn, fcn, ALUSc, ALUSc2, RgSel,destReg, RgWrt, ALUOperation, MemRd, MemWrt, MemtReg, Bnch);
+Datapathtop full_datapath(destReg, RgWrt, ALUSc, MemWrt, MemRd, MemtReg, ALUSc2, RgSel, Bnch, ALUOperation, Rst, Clk, oprtn, fcn);
 
 endmodule
