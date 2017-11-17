@@ -12,7 +12,7 @@ module Datapathtop(RegDest, RegisterWrite, ALUSource, WriteMem, ReadMem, MemToRe
    wire Zero, nZero, PCSource;
    output wire [5:0] opc, func;
    
-   (* mark_debug = "true" *) wire [31:0] debug_Reg8, 	debug_Reg16, debug_Reg17, debug_Reg18, debug_Reg19;
+   (* mark_debug = "true" *) wire [31:0] debug_Reg8, debug_Reg16, debug_Reg17, debug_Reg18, debug_Reg19;
 
    ProgramCounter PC_1(PCNext, PCAddress, rst, clk); //done
    PCAdder PCAdd(PCAddress, AddressPlusFour); //done

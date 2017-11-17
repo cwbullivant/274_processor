@@ -53,9 +53,9 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
    output [31:0] debug_Reg8, debug_Reg16, debug_Reg17,    
        debug_Reg18, debug_Reg19;
    
-      (* mark_debug = "true" *) reg [31:0] RegFile [0:31];
+   //(* mark_debug = "true" *) reg [31:0] RegFile [0:31];
 
-   reg [31:0] 	     registers [0:31];
+   (* mark_debug = "true" *) reg [31:0] 	     registers [0:31];
    integer 	     iter = 0; // iteration variable to initialize all registers
 
    initial begin
@@ -77,10 +77,10 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
       ReadData2 <= registers[ReadRegister2];
    end
    
-   assign debug_Reg8 = RegFile[8];
-   assign debug_Reg16 = RegFile[16];
-   assign debug_Reg17 = RegFile[17];
-   assign debug_Reg18 = RegFile[18];
-   assign debug_Reg19 = RegFile[19];
+   assign debug_Reg8 = registers[8];
+   assign debug_Reg16 = registers[16];
+   assign debug_Reg17 = registers[17];
+   assign debug_Reg18 = registers[18];
+   assign debug_Reg19 = registers[19];
 
 endmodule

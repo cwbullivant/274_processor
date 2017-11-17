@@ -46,7 +46,7 @@ module InstructionMemory(Address, Instruction);
         reg [31:0] memory [0:127];
             
         initial begin                   //need to iniitalize this for the code!!!
-            memory[0] = 32'h2010000e;    //    main:   addi   $s0, $zero, 14                  #so = RegFile[16] = 14  (0+14)
+            /*memory[0] = 32'h2010000e;    //    main:   addi   $s0, $zero, 14                  #so = RegFile[16] = 14  (0+14)
             memory[1] = 32'h2011000f;    //        addi    $s1, $zero, 15               #s1 = RegFile[17] = 15  (0+15)
             memory[2] = 32'h2012001d;    //        addi    $s2, $zero, 29               #s2 = RegFile[18] = 29  (0+29)
             memory[3] = 32'h2013fff1;    //        addi    $s3, $zero, -15              #s3 = RegFile[19] = -15 (0+-15)
@@ -61,8 +61,20 @@ module InstructionMemory(Address, Instruction);
             memory[12] = 32'h0211402a;    //        slt    $t0, $s0, $s1                #t0 = 1
             memory[13] = 32'h0230402a;    //        slt    $t0, $s1, $s0                #t0 = 0
             memory[14] = 32'h00114080;    //        sll    $t0, $s1, 2                  #t0 = 60  (15*4)
-            memory[15] = 32'h001240c2;    //        srl    $t0, $s2, 3                  #t0 = 3   (29/8)
-           
+            memory[15] = 32'h001240c2;    //        srl    $t0, $s2, 3                  #t0 = 3   (29/8)*/
+            memory[0] = 32'h34090000;	//	main:	ori	$t1, $zero, 0
+            memory[1] = 32'h2012001d;    //        addi    $s2, $zero, 29
+            memory[2] = 32'h2013000c;    //        addi    $s3, $zero, 12
+            memory[3] = 32'had320004;    //        sw    $s2, 4($t1)
+            memory[4] = 32'had330008;    //        sw    $s3, 8($t1)
+            memory[5] = 32'h8d280004;    //        lw    $t0, 4($t1)
+            memory[6] = 32'h8d280008;    //        lw    $t0, 8($t1)
+            memory[7] = 32'h15120002;    //        bne    $t0, $s2, label1
+            memory[8] = 32'h00004020;    //        add    $t0, $zero, $zero
+            memory[9] = 32'h2008000c;    //        addi    $t0, $zero, 12
+            memory[10] = 32'h15130001;    //    label1:    bne    $t0, $s3, label2
+            memory[11] = 32'h20080001;    //        addi    $t0, $zero, 1
+            memory[12] = 32'h2008001d;    //    label2:    addi    $t0, $zero, 29
         end
         
         always @ * begin
