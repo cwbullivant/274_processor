@@ -20,7 +20,7 @@ module SignExtension(in, out);
     
     always @(in) begin
        if (in[15] == 0) begin
-	  out[31:16] <= 16'b0;
+	  out[31:16] <= 16'b0000000000000000;
 	  out[15:0] <= in;
        end
        else if (in[15] == 1) begin

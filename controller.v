@@ -196,7 +196,7 @@ module matrixcontroller(opcode, func, ALUSrc, ALUSrc2, RegSl, RegDst, RegWrite, 
                        RegSl <= 0;
                        RegDst <= 1;
                        RegWrite <= 0;
-                       ALUOp <= 4'b0111;
+                       ALUOp <= 4'b0110;
                        MemRead <= 0;
                        MemWrite <= 0;
                        MemtoReg <= 0; 
