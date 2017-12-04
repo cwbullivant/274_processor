@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module Datapathtop(RegDest, RegisterWrite, ALUSource, WriteMem, ReadMem, MemToReg, ALUSource2, RegSel, Branch, operation, rst, clk, 
-                   opc, func);
+                   opc, func, debug_Rg8, debug_Rg16, debug_Rg17, debug_Rg18, debug_Rg19);
    //first inputs are outputs from the controller, to tell the datapath what to do
    input RegDest, RegisterWrite, ALUSource, WriteMem, ReadMem, MemToReg, ALUSource2, RegSel, Branch;
    input [3:0] operation;
@@ -11,8 +11,10 @@ module Datapathtop(RegDest, RegisterWrite, ALUSource, WriteMem, ReadMem, MemToRe
    wire [4:0]  WriteRegAddress;
    wire Zero; //, PCSource;
    output wire [5:0] opc, func;
+   wire [31:0] debug_Reg8, debug_Reg16, debug_Reg17, debug_Reg18, debug_Reg19;
+   (* mark_debug = "true" *) output wire [31:0] debug_Rg8, debug_Rg16, debug_Rg17, debug_Rg18, debug_Rg19;
    
-   (* mark_debug = "true" *) wire [31:0] debug_Reg8, debug_Reg16, debug_Reg17, debug_Reg18, debug_Reg19;
+   //(* mark_debug = "true" *) wire [31:0] debug_Reg8, debug_Reg16, debug_Reg17, debug_Reg18, debug_Reg19;
 
    ProgramCounter PC_1(PCNext, PCAddress, rst, clk); //done
    PCAdder PCAdd(PCAddress, AddressPlusFour); //done
@@ -31,8 +33,12 @@ module Datapathtop(RegDest, RegisterWrite, ALUSource, WriteMem, ReadMem, MemToRe
    DataMemory DataMem(ALURes, ReadData2, clk, WriteMem, ReadMem, ReadMemData); //done
    PCShifter PCShift(ExtendedInstr, ShiftedAddress); //done
    PCShiftAdder PCShiftAdd(AddressPlusFour, ShiftedAddress, AddShiftAddress); //done
-   //and2gate and_1(Zero, Branch, clk, PCSource);
    
    assign opc = Instr[31:26];
    assign func = Instr[5:0];
+   assign debug_Rg8 = debug_Reg8;
+   assign debug_Rg16 = debug_Reg16;
+   assign debug_Rg17 = debug_Reg17;
+   assign debug_Rg18 = debug_Reg18;
+   assign debug_Rg19 = debug_Reg19;
 endmodule // Datapathtop
