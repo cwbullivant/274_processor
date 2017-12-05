@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module Datapathtop(RegDest, RegisterWrite, ALUSource, WriteMem, ReadMem, MemToReg, ALUSource2, RegSel, Branch, operation, rst, clk, 
+module Datapathtop(RegDest, RegisterWrite, ALUSource, WriteMem, ReadMem, MemToReg, ALUSource2, RegSel, Branch, operation, rst, clk, out7, en_out, 
                    opc, func);
    //first inputs are outputs from the controller, to tell the datapath what to do
    input RegDest, RegisterWrite, ALUSource, WriteMem, ReadMem, MemToReg, ALUSource2, RegSel, Branch;
@@ -11,12 +11,12 @@ module Datapathtop(RegDest, RegisterWrite, ALUSource, WriteMem, ReadMem, MemToRe
    wire [4:0]  WriteRegAddress;
    wire Zero, slowClk;
    output wire [5:0] opc, func;
-   wire [6:0] o7;
-   wire [7:0] enOut;
+   input wire [6:0] out7;
+   input wire [7:0] en_out;
    
    (* mark_debug = "true" *) wire [31:0] debug_Reg8, debug_Reg16, debug_Reg17, debug_Reg18, debug_Reg19;
 
-   ProgramCounter PC_1(PCNext, PCAddress, rst, clk); //done
+   ProgramCounter PC_1(PCNext, PCAddress, rst, slowClk); //done
    PCAdder PCAdd(PCAddress, AddressPlusFour); //done
    InstructionMemory IM_1(PCAddress, Instr); //done
    Mux32Bit2To1 ALUMux(ALUSrc2, ExtendedInstr, ReadData2, ALUSource); //done
@@ -25,16 +25,16 @@ module Datapathtop(RegDest, RegisterWrite, ALUSource, WriteMem, ReadMem, MemToRe
    Mux32Bit2To1 ALUMux2(ALUSrcSel, Zextend, ALUSrc2, ALUSource2); //done
    Mux32Bit2To1 ALUSrcRegMux(ALURegSrc, ReadData2, ReadData1, RegSel); //done
    Mux5Bit2To1 RegDstMux(WriteRegAddress, Instr[15:11], Instr[20:16], RegDest); //done
-   RegisterFile allRegs(Instr[25:21], Instr[20:16], WriteRegAddress, WriteToReg, RegisterWrite, clk, ReadData1, ReadData2, debug_Reg8, 	
+   RegisterFile allRegs(Instr[25:21], Instr[20:16], WriteRegAddress, WriteToReg, RegisterWrite, slowClk, ReadData1, ReadData2, debug_Reg8, 	
                         debug_Reg16, debug_Reg17, debug_Reg18, debug_Reg19); //done
    SignExtension SignExtend(Instr[15:0], ExtendedInstr); //done
    ZeroExtension ZeroExtend(Instr[10:6], Zextend); //done
    ALU32Bit ALU_full(operation, ALURegSrc, ALUSrcSel, ALURes, Zero); //done
-   DataMemory DataMem(ALURes, ReadData2, clk, WriteMem, ReadMem, ReadMemData); //done
+   DataMemory DataMem(ALURes, ReadData2, slowClk, WriteMem, ReadMem, ReadMemData); //done
    PCShifter PCShift(ExtendedInstr, ShiftedAddress); //done
    PCShiftAdder PCShiftAdd(AddressPlusFour, ShiftedAddress, AddShiftAddress); //done
    ClkDiv(clk, rst, slowClk);
-   EightDigitDisplay(slowClk, debug_Reg16, o7, enOut);
+   EightDigitDisplay(slowClk, debug_Reg16, out7, en_out);
    
    assign opc = Instr[31:26];
    assign func = Instr[5:0];

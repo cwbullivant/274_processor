@@ -36,3 +36,8 @@ set_property PACKAGE_PIN T11 [get_ports {out7[1]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {out7[0]}]
 set_property PACKAGE_PIN L18 [get_ports {out7[0]}]
 
+
+## Added button for Rst so bitstream generation wouldn't complain
+set_property IOSTANDARD LVCMOS33 [get_ports Rst]
+set_property PACKAGE_PIN N17 [get_ports Rst]
+
